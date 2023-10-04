@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardBody,
@@ -8,6 +8,8 @@ import {
   Input,
   Spinner,
 } from "@material-tailwind/react";
+import { TransactionContext } from "../context/TransactionContext";
+import { useContext } from "react";
 
 export const CryptoForm = () => {
   const [address, setAddress] = React.useState("");
@@ -16,9 +18,25 @@ export const CryptoForm = () => {
   const [message, setMessage] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
-  const handleTransfer =  ()=> {
+  const { currentAccount } =
+    useContext(TransactionContext);
+
+  const checkWallet = async () => {
+    console.log(currentAccount);
+    if (currentAccount==="") {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    checkWallet();
+  }, []);
+
+  const handleTransfer = () => {
     setLoading(true);
-  }
+  };
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddress(e.target.value);

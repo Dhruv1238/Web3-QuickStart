@@ -6,9 +6,13 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
- 
+import { TransactionContext } from "../context/TransactionContext";
+import { useContext } from "react"; 
+
 export function NavbarDefault() {
   const [openNav, setOpenNav] = React.useState(false);
+
+  const { connectWallet, checkIfWalletIsConnected } = useContext(TransactionContext);
  
   React.useEffect(() => {
     window.addEventListener(
@@ -73,7 +77,7 @@ export function NavbarDefault() {
           Web3 Systum
         </Typography>
         <div className="hidden lg:block">{navList}</div>
-        <Button variant="gradient" size="sm" className="hidden lg:inline-block">
+        <Button variant="gradient" size="sm" className="hidden lg:inline-block" onClick={connectWallet}>
           <span>Connect Wallet</span>
         </Button>
         <IconButton
@@ -117,7 +121,7 @@ export function NavbarDefault() {
       <MobileNav open={openNav}>
         <div className="container mx-auto">
           {navList}
-          <Button variant="gradient" size="sm" fullWidth className="mb-2">
+          <Button variant="gradient" size="sm" fullWidth className="mb-2" onClick={connectWallet}>
             <span>Connect Wallet</span>
           </Button>
         </div>
