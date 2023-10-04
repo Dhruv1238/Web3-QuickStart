@@ -1,4 +1,4 @@
-import { Card, CardHeader, Typography } from "@material-tailwind/react";
+import { Card, Typography } from "@material-tailwind/react";
 import { CryptoForm } from "./CryptoForm";
 
 export const StyleMatrix = () => {
