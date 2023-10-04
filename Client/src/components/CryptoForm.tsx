@@ -23,16 +23,16 @@ export const CryptoForm = () => {
 
   const checkWallet = async () => {
     console.log(currentAccount);
-    if (currentAccount==="") {
+    if (!currentAccount) {
       setLoading(true);
-    } else {
+    } else if (currentAccount !== "") {
       setLoading(false);
     }
   };
 
   useEffect(() => {
     checkWallet();
-  }, []);
+  }, [currentAccount]);
 
   const handleTransfer = () => {
     setLoading(true);

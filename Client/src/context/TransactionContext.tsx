@@ -29,15 +29,14 @@ export const TransactionProvider = ({ children }) => {
       console.log("Make sure you have metamask!");
       return false;
     } else {
-      console.log("We have the ethereum object", ethereum);
-    }
-    try {
-    const accounts = await ethereum.request({ method: "eth_accounts" });
-      const account = accounts[0];
-      setCurrentAccount(account);
-      console.log("Found an authorized account:", account);
-    } catch (error) {
-      console.log("No authorized account found");
+      try {
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+        const account = accounts[0];
+        console.log("Found an authorized account:", account);
+        setCurrentAccount(account);
+      } catch (error) {
+        console.log("No authorized account found");
+      }
     }
   };
 
@@ -63,7 +62,7 @@ export const TransactionProvider = ({ children }) => {
   };
 
   return (
-    <TransactionContext.Provider value={{connectWallet, currentAccount}}>
+    <TransactionContext.Provider value={{ connectWallet, currentAccount }}>
       {children}
     </TransactionContext.Provider>
   );
