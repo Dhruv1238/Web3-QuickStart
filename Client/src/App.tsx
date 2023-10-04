@@ -1,12 +1,12 @@
 import './App.css'
-import { NavbarDefault } from './components/navBar'
-import { Welcome } from './components/welome'
+import { NavbarDefault } from './components/Navbar'
+import { Landing } from './components/Welome'
 
 function App() {
   return (
     <>
     <NavbarDefault />
-    <Welcome />
+    <Landing />
     </>
   )
 }
