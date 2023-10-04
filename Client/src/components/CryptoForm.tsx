@@ -14,7 +14,11 @@ export const CryptoForm = () => {
   const [amount, setAmount] = React.useState("");
   const [keyword, setKeyword] = React.useState("");
   const [message, setMessage] = React.useState("");
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
+
+  const handleTransfer =  ()=> {
+    setLoading(true);
+  }
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddress(e.target.value);
@@ -103,6 +107,7 @@ export const CryptoForm = () => {
                     fullWidth
                     size="sm"
                     className=" bg-transparent text-white border"
+                    onClick={handleTransfer}
                   >
                     Transfer
                   </Button>
