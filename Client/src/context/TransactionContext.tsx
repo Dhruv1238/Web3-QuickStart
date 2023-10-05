@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import React, { useContext, useEffect } from "react";
 import { contractABI, contractAddress } from "../utils/constants";
-
 declare global {
   interface Window {
     ethereum: any;
@@ -26,6 +25,8 @@ const getEthereumContract = async () => {
 
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = React.useState("");
+  const [transactionCount, setTransactionCount] = React.useState(localStorage.getItem("transactionCount"));
+  const [loading, setLoading] = React.useState(false);
 
   const checkIfWalletIsConnected = async () => {
     if (!ethereum) {
@@ -79,15 +80,48 @@ export const TransactionProvider = ({ children }) => {
         alert("Get MetaMask!");
         return;
       }
-      const trasactionContract = getEthereumContract();
-      console.log(trasactionContract);
+      const trasactionContract = await getEthereumContract();
+
+      const parsedAmount = ethers.utils.parseEther(amount.toString());
+
+      await ethereum.request({
+        method: "eth_sendTransaction",
+        params: [
+          {
+            to: to,
+            from: currentAccount,
+            gas: "0x76c0", // 30400 GWEI
+            value: parsedAmount._hex,
+            // data: trasactionContract.interface.encodeFunctionData("transfer", [
+            //   keyword,
+            //   message,
+            // ]),
+          },
+        ],
+      });
+
+      const trasactionHash = await trasactionContract.addToBlockChain(
+        to,
+        parsedAmount.toNumber(),
+        keyword,
+        message
+      );
+      setLoading(true);
+      console.log("loading:",trasactionHash.hash);
+      await trasactionHash.wait();
+
+
+      const transactionCount = await trasactionContract.getTransactionCount();
+      setTransactionCount(transactionCount.toNumber());
+      localStorage.setItem("transactionCount", transactionCount.toNumber());
     } catch (error) {
       console.log(error);
-      alert("Error connecting to MetaMask");
+      // alert("Error connecting to MetaMask");                                                                                                                                         
     }
   };
+  console.log(transactionCount);
 
-  return (
+  return (                                                                                                    
     <TransactionContext.Provider
       value={{ connectWallet, currentAccount, sendTransaction }}
     >
