@@ -1,5 +1,6 @@
 import './App.css'
 import { NavbarDefault } from './components/Navbar'
+import { TransactionsData } from './components/TransactionsData'
 import { Landing } from './components/Welome'
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <>
     <NavbarDefault />
     <Landing />
+    <TransactionsData />
     </>
   )
 }

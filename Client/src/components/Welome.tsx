@@ -51,7 +51,7 @@ export const Landing = () => {
             Welcome to my Web<a className="text-white">3</a>{" "}
             <p className=" text-white">Application</p>
           </Typography>
-          <Typography className=" text-white text-xl p-5">
+           <Typography className=" text-white text-xl p-5">
             Using this application you can transfer cryptocurrency between
             accounts
           </Typography>
