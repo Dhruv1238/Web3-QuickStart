@@ -6,7 +6,7 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
-import { TransactionContext } from "../context/TransactionContext";
+import { TransactionContext } from "../context/TransactionContext.tsx";
 import { useContext } from "react"; 
 
 export function NavbarDefault() {

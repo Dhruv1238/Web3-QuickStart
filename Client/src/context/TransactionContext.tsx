@@ -2,11 +2,17 @@ import { ethers } from "ethers";
 import React, { useContext, useEffect } from "react";
 import { contractABI, contractAddress } from "../utils/constants";
 
+declare global {
+  interface Window {
+    ethereum: any;
+  }
+}
+
 export const TransactionContext = React.createContext({});
 
 const { ethereum } = window;
 
-const getEthereumContract = () => {
+const getEthereumContract = async () => {
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
   const transactionContract = new ethers.Contract(
@@ -14,11 +20,8 @@ const getEthereumContract = () => {
     contractABI,
     signer
   );
-  console.log({
-    transactionContract,
-    provider,
-    signer,
-  });
+  console.log(transactionContract);
+  return transactionContract;
 };
 
 export const TransactionProvider = ({ children }) => {
@@ -61,8 +64,33 @@ export const TransactionProvider = ({ children }) => {
     }
   };
 
+  const sendTransaction = async (
+    to: string,
+    amount: number,
+    keyword: string,
+    message: string
+  ) => {
+    if (!ethereum) {
+      alert("Get MetaMask!");
+      return;
+    }
+    try {
+      if (!ethereum) {
+        alert("Get MetaMask!");
+        return;
+      }
+      const trasactionContract = getEthereumContract();
+      console.log(trasactionContract);
+    } catch (error) {
+      console.log(error);
+      alert("Error connecting to MetaMask");
+    }
+  };
+
   return (
-    <TransactionContext.Provider value={{ connectWallet, currentAccount }}>
+    <TransactionContext.Provider
+      value={{ connectWallet, currentAccount, sendTransaction }}
+    >
       {children}
     </TransactionContext.Provider>
   );

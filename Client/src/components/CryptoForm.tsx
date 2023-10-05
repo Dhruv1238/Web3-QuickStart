@@ -8,7 +8,7 @@ import {
   Input,
   Spinner,
 } from "@material-tailwind/react";
-import { TransactionContext } from "../context/TransactionContext";
+import { TransactionContext } from "../context/TransactionContext.tsx";
 import { useContext } from "react";
 
 export const CryptoForm = () => {
@@ -18,7 +18,7 @@ export const CryptoForm = () => {
   const [message, setMessage] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
-  const { currentAccount } =
+  const { currentAccount, sendTransaction } =
     useContext(TransactionContext);
 
   const checkWallet = async () => {
@@ -35,7 +35,7 @@ export const CryptoForm = () => {
   }, [currentAccount]);
 
   const handleTransfer = () => {
-    setLoading(true);
+    sendTransaction(address, amount, keyword, message);
   };
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
