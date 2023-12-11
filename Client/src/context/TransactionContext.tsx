@@ -43,10 +43,20 @@ export const TransactionProvider = ({ children }) => {
       }
     }
   };
+  const getTransactionCount = async () => {
+    const trasactionContract = await getEthereumContract();
+    const transactionCount = await trasactionContract.getTransactionCount();
+    setTransactionCount(transactionCount.toNumber());
+  };
 
   useEffect(() => {
     checkIfWalletIsConnected();
+    getTransactionCount();
   }, []);
+
+
+
+
 
   const connectWallet = async () => {
     try {
@@ -113,7 +123,6 @@ export const TransactionProvider = ({ children }) => {
 
       const transactionCount = await trasactionContract.getTransactionCount();
       setTransactionCount(transactionCount.toNumber());
-      localStorage.setItem("transactionCount", transactionCount.toNumber());
     } catch (error) {
       console.log(error);
       // alert("Error connecting to MetaMask");                                                                                                                                         
