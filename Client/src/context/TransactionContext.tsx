@@ -27,6 +27,7 @@ export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = React.useState("");
   const [transactionCount, setTransactionCount] = React.useState(localStorage.getItem("transactionCount"));
   const [loading, setLoading] = React.useState(false);
+  const [transactions, setTransactions] = React.useState([]);
 
   const checkIfWalletIsConnected = async () => {
     if (!ethereum) {
@@ -49,9 +50,16 @@ export const TransactionProvider = ({ children }) => {
     setTransactionCount(transactionCount.toNumber());
   };
 
+  const getAllTransactions = async () => {
+    const trasactionContract = await getEthereumContract();
+    const allTransactions = await trasactionContract.getAllTransactions();
+    setTransactions(allTransactions);
+  }
+
   useEffect(() => {
     checkIfWalletIsConnected();
     getTransactionCount();
+    getAllTransactions();
   }, []);
 
 
@@ -132,7 +140,7 @@ export const TransactionProvider = ({ children }) => {
 
   return (                                                                                                    
     <TransactionContext.Provider
-      value={{ connectWallet, currentAccount, sendTransaction, transactionCount }}
+      value={{ connectWallet, currentAccount, sendTransaction, transactionCount, transactions }}
     >
       {children}
     </TransactionContext.Provider>
