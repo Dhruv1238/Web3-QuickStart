@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { contractABI, contractAddress } from "../utils/constants";
 declare global {
   interface Window {
@@ -25,7 +25,7 @@ const getEthereumContract = async () => {
 
 export const TransactionProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = React.useState("");
-  const [transactionCount, setTransactionCount] = React.useState(localStorage.getItem("transactionCount"));
+  const [transactionCount, setTransactionCount] = React.useState(14);
   const [loading, setLoading] = React.useState(false);
   const [transactions, setTransactions] = React.useState([]);
 
@@ -54,11 +54,12 @@ export const TransactionProvider = ({ children }) => {
     const trasactionContract = await getEthereumContract();
     const allTransactions = await trasactionContract.getAllTransactions();
     setTransactions(allTransactions);
+    console.log(allTransactions);
   }
 
   useEffect(() => {
     checkIfWalletIsConnected();
-    getTransactionCount();
+    // getTransactionCount();
     getAllTransactions();
   }, []);
 
@@ -135,6 +136,7 @@ export const TransactionProvider = ({ children }) => {
       console.log(error);
       // alert("Error connecting to MetaMask");                                                                                                                                         
     }
+    getTransactionCount();
   };
   console.log(transactionCount);
 
